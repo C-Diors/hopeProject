@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+      http://www.springframework.org/schema/mvc  
+      http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+
+	<!-- 静态文件的访问 -->
+	<mvc:resources location="/img/" mapping="/img/**" />
+	<mvc:resources location="/js/" mapping="/js/**" />
+
+	<!-- mvc视图解析器 -->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+		<property name="cache" value="true" />
+		<!-- 模板后缀，指定html页面为模板 -->
+		<property name="suffix" value=".html" />
+		<!-- 使用这个模板类来解析视图 -->
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.freemarker.FreeMarkerView" />
+		<property name="exposeSpringMacroHelpers" value="true" />
+		<!-- 允许访问请求属性，默认为false -->
+		<property name="exposeRequestAttributes" value="true" />
+		<!-- 允许访问会话属性，默认为false -->
+		<property name="exposeSessionAttributes" value="true" />
+		<!-- 页面上下文，类似于request.contextPath -->
+		<property name="requestContextAttribute" value="rc" />
+		<!-- 模板输出内容编码，此处应与defaultEncoding保持一致 -->
+		<property name="contentType" value="text/html;charset=UTF-8" />
+	</bean>
+	
+	<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<!-- 模板文件所在目录 -->
+		<property name="templateLoaderPath" value="/moudle/" />
+		<!-- 指定FreeMarker模板文件的编码格式 -->
+		<property name="defaultEncoding" value="UTF-8" />
+		<!-- FreeMarker属性配置 -->
+		<property name="freemarkerSettings">
+			<props>
+				<!-- 
+					每隔5小时检查模板是否更新，单位为秒
+					如果不经常更新模板可将更新的延迟时间设定长一点
+				-->
+				<prop key="template_update_delay">18000</prop>
+				<!-- 指定地区语言环境，我们的语言是中文 -->
+				<prop key="locale">zh_CN</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!--
+	mvc视图解析器
+	 <bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+      -->
+</beans>  
